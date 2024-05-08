@@ -1,0 +1,19 @@
+{
+  "name": "inft-2202-lab",
+  "version": "1.0.0",
+  "description": "inft lab projects ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narmeenk97/inft-2202-lab.git"
+  },
+  "author": "Narmeen Khalid",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/narmeenk97/inft-2202-lab/issues"
+  },
+  "homepage": "https://github.com/narmeenk97/inft-2202-lab#readme"
+}
