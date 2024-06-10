@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel = "stylesheet"
+        href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href = "../../node_modules/@fortawesome/fontawesome-free/css/all.min.css">
+    </head>
+    <body>
+        <main>
+          <div class="container" style="background: url(./img/240_F_692232472_Fci1D4gmtbHt5EBZYJfXBX6DYIYmVXCA.jpg)">
+            <header class="d-flex justify-content-center py-3">
+              <ul class="nav nav-pills">
+                <li><a href="./index.html" class="nav-link px-2 link-body-emphasis" style="font-family: cursive; color: #211419;">Home</a></li>  
+                <li><a href="./about.html" class="nav-link px-2 link-body-emphasis" style="font-family: cursive; color: #211419;">About Us</a></li>
+                <li><a href="./contact.html" class="nav-link active" aria-current="page" style="font-family: cursive; color: #211419;">Contact Us</a></li>
+                <li><a href="./add.html" class="nav-link px-2 link-body-emphasis" style="font-family: cursive; color: #211419;">Request Desserts</a></li>
+                <li><a href="./list.html" class="nav-link px-2 link-body-emphasis" style="font-family: cursive; color: #211419;">View Treats</a></li>
+              </ul>
+            </header>
+          </div>
+          <div class="banner text-center">
+            <h1 style="font-family: cursive; color: #211419;">♥ Sweet Nectar ♥</h1>
+        </div>
+      <div class="container mt-5">
+        <hr style="border-top: 2px solid #211419;">
+      </div>
+          </div> 
+          <div class="container">
+            <div class="row">
+              <div class="banner text-center">
+                  <h1 class="fw-normal" style="font-family: cursive; color: #211419;">Get in touch with me:</h1>
+              </div>
+                <div class="mb-2">
+                  <h5 class="bold" style="font-family: cursive; color: #211419;">Please provide your details and a short message below:</h5>
+                </div>
+                <form id="form" method="post" action="">
+                  <div class="mb-2">
+                      <label for="name" class="form-label" style="font-family: cursive; color: #211419;">Name:</label>
+                      <input type="text" class="form-control" id="name" name="name">
+                      <p class="text-danger d-none">Please reenter the Name and try again.</p>
+                  </div>
+                  <div class="mb-3">
+                    <label for="phone" class="form-label" style="font-family: cursive; color: #211419;">Phone Number:</label>
+                    <input type="tel" class="form-control" id="phone" name="phone">
+                    <p class="text-danger d-none">Please reenter the Phone Number and try again.</p>
+                  </div> 
+                  <div class="mb-4">
+                    <label for="email" class="form-label" style="font-family: cursive; color: #211419;">Email Address:</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    <p class="text-danger d-none">Please reenter the Email Address and try again.</p>
+                  </div>
+                  <div class="mb-5">
+                    <label for="message" class="form-label" style="font-family: cursive; color: #211419;">Message:</label>
+                    <textarea class="form-control" id="message" name="message" rows="4" cols="50"></textarea>
+                    <p class="text-danger d-none">Please reenter the message and try again.</p>
+                  </div>
+                  <div class="mb-6">
+                    <button id="submitButton" type="submit" class="btn btn-outline-primary" style="font-family: cursive; color: #211419;">Submit Message</button>
+                  </div>  
+                </form>
+              </div>
+            </div>
+          </div>
+        </main>
+            <div class="container">
+                <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+                  <div class="col-md-4 d-flex align-items-center">
+                    <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                      <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                    </a>
+                    <span class="mb-3 mb-md-0 text-body-secondary" id="copyrightYear"></span>
+                  </div>
+                </footer>
+              </div>
+    </body>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="app/app.js" type="module"></script>
+    <script src="./app/contact.js" type="module"></script>
+</html>
