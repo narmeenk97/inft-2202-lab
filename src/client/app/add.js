@@ -1,58 +1,108 @@
-import {productService} from './product.mock.service.js';
-import { Product } from "./Product.js";
+import {createProductService} from './product.service.js';
+import { newProduct } from "./Product.js";
 
-let params = new URL(document.location).searchParams;
-let name = params.get('name');
+const apiKey = '6671c3c9f6855731eec4972d';
+const host = 'https://inft2202.paclan.net/api/products';
+const productService = createProductService(host, apiKey);
+
 const form = document.getElementById('form');
-if (!name) {
-    document.getElementById('form').addEventListener('submit', form);
-}
-form.addEventListener('submit', (event) => {
+const spinner = document.getElementById('spinner');
+
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
     //get the form values 
-    const productName = form.name.value;
-    const price = form.price.value;
-    const onHand = form.quantity.value;
+    const name = form.name.value;
+    const price = parseFloat(form.price.value);
+    const stock = parseInt(form.stock.value, 10);
     const description = form.description.value;
 
+    //create a product object 
+    const product = {
+        name: name,
+        price: price,
+        stock: stock,
+        description: description
+    }
+
     //validate the form 
-    const isValid = validateForm(productName, price, onHand, description);
+    const isValid = await validateForm(name, price, stock, description);
 
     if (isValid) {
-        const newProduct = new Product(productName, price, onHand, description);
-        const isStored = productService.addProduct(newProduct);
-        if (isStored) {
+        try {
+            const result =  await delayedFetch(() => productService.addProduct(product), 1000);
+            console.log(result);
             window.location.href = 'list.html';
-        } else {
-            console.error('Failed to store the product');
+        } catch (error) {
+            console.error('Failed to add the product', error);
         }
     } else {
         console.error('Validation failed!');
     }
 });
 
-export function validateForm(name, price, onHand, description) {
+export async function validateForm(name, price, stock, description) {
     let isValid = true;
 
-    // Check if all fields have been filled out
-    if (!name || isNaN(price) || isNaN(onHand) || !description) {
+    //Clear any exisiting error messages 
+    clearErrorMessages();
+
+    //check if name field is empty
+    if (!name) {
         isValid = false;
-        showErrorMessages();
+        showErrorMessages('nameError');
+    }
+    // Check if name field is empty 
+    if (!name) {
+        isValid = false;
+        showErrorMessages('nameError');
     }
 
     // Check if the price is a valid number with up to two decimal places
     if (!/^\d+(\.\d{1,2})?$/.test(price)) {
         isValid = false;
-        showErrorMessages();
+        showErrorMessages('priceError');
+    }
+
+    //check if the stock is a valid number 
+    if (!Number.isInteger(stock)) {
+        isValid = false;
+        showErrorMessages('stockError');
+    }
+
+    //check if the description is empty 
+    if (!description) {
+        isValid = false;
+        showErrorMessages('desError');
     }
 
     return isValid;
 }
 
-// Function to show error messages
-function showErrorMessages() {
+//function to show error messages
+function showErrorMessages(id) {
+    const error = document.getElementById(id);
+    error.classList.remove('d-none');
+}
+
+// Function to clear error messages
+function clearErrorMessages() {
     const errorMessages = document.querySelectorAll('.text-danger');
     errorMessages.forEach((message) => {
-        message.classList.remove('d-none');
+        message.classList.add('d-none');
+        message.textContent = '';
+    });
+}
+
+// Function to add a delay to the API response to show the spinner to the user
+async function delayedFetch(apiCall, delay) {
+    return new Promise((resolve, reject) => {
+        setTimeout(async () => {
+            try {
+                const result = await apiCall();
+                resolve(result);
+            } catch (error) {
+                reject(error);
+            }
+        }, delay);
     });
 }

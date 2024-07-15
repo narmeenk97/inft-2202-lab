@@ -29,8 +29,25 @@
       <div class="banner text-center" style="font-family: cursive; color: #211419;">
         <h2>Available Treats</h2>
       </div>
+      <div id="spinner" class="spinner-grow text-danger text-center" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>    
+    <div class="d-flex justify-content-between align-items-center container mt-3">
+    <div class="btn-group">
+      <button type="button" class="btn btn-info dropdown-toggle" id="perPage" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        10
+      </button>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" data-value="10">10</a>
+        <a class="dropdown-item" href="#" data-value="20">20</a>
+        <a class="dropdown-item" href="#" data-value="30">30</a>
+      </div>
+    </div>
+    </div>
+    <div id="cardDiv" class="container mt-3 d-flex flex-wrap justify-content-center"></div>
+    <ul id="pagination" class="pagination justify-content-end mb-0"></ul>
       <div class="container">
-      <div id="message-box" class="alert alert-danger d-none" role="alert">
+      <div id="message-box" class="alert alert-danger d-none" role="status">
         <p>No treats today</p>
       </div>
       </div>
@@ -67,4 +84,5 @@
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="app/app.js" type="module"></script>
     <script src="app/list.js" type="module"></script>
+    <script src="app/pagination.js" type="module"></script>
 </html>
