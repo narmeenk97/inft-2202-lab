@@ -29,11 +29,12 @@
       <div class="banner text-center" style="font-family: cursive; color: #211419;">
         <h2>Request Treats</h2>
       </div>
-      <div id="spinner" class="spinner-grow text-danger text-center" role="status">
+      <div id="spinner" class="spinner-grow text-danger text-center d-none" role="status">
         <span class="visually-hidden">Loading...</span>
       </div> 
       <div class="container" id="form-container">
-      <form id="form" method="post">
+      <form id="form">
+        <input type="hidden" id="action" name="action" value="add">
         <div class="mb-2">
             <label for="name" class="form-label" style="font-family: cursive; color: #211419;">Name of Treat:</label>
             <input type="text" class="form-control" id="name" name="name" required>
@@ -47,8 +48,8 @@
         </div> 
         <!--  -->
         <div class="mb-4">
-          <label for="stock" class="form-label" style="font-family: cursive; color: #211419;">Quantity on Hand:</label>
-          <input type="number" class="form-control" id="stock" name="stock" required>
+          <label for="onHand" class="form-label" style="font-family: cursive; color: #211419;">Quantity on Hand:</label>
+          <input type="number" class="form-control" id="onHand" name="onHand" required>
           <p id="stockError" class="text-danger d-none">Please reenter the quantity on hand and try again.</p>
         </div>
         <div class="mb-4">

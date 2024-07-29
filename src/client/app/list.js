@@ -1,15 +1,15 @@
 import {createProductService} from './product.service.js';
 import { setupPagination } from './pagination.js';
 
-const apiKey = '6671c3c9f6855731eec4972d';
-const host = 'https://inft2202.paclan.net/api/products';
-const productService = createProductService(host, apiKey);
+//const apiKey = '6671c3c9f6855731eec4972d';
+const host = 'http://localhost:3000/api/products';
+const productService = createProductService(host);
 
 const container = document.getElementById('cardDiv');
 const messageBox = document.getElementById('message-box');
 const spinner = document.getElementById('spinner');
 //to check if the product was listed by me only then the delete and edit buttons will appear 
-const myBannerID = 100913624;
+//const myBannerID = 100913624;
 
 const pagination = setupPagination(loadProducts);
 
@@ -80,13 +80,13 @@ function createCard(product) {
 
     const cardOnHand = document.createElement('p');
     cardOnHand.classList.add('card-onHand');
-    cardOnHand.textContent = `QTY: ${product.stock}`;
+    cardOnHand.textContent = `QTY: ${product.onHand}`;
     cardBody.appendChild(cardOnHand);
 
-    const cardListedBy = document.createElement('p');
+    /* const cardListedBy = document.createElement('p');
     cardListedBy.classList.add('card-listedBy');
     cardListedBy.textContent = `Listed By: ${product.owner.name}`;
-    cardBody.appendChild(cardListedBy);
+    cardBody.appendChild(cardListedBy); */
 
     const cardListedAt = document.createElement('p');
     cardListedAt.classList.add('card-listedAt');
@@ -99,51 +99,48 @@ function createCard(product) {
     addToCart.textContent = "Add to cart";
     cardBody.appendChild(addToCart);
 
-    if (product.owner.bannerId === myBannerID) {
+    const deleteBtn = document.createElement('a');
+    deleteBtn.classList.add('btn', 'btn-outline-danger', 'fas', 'fa-trash-alt');
+    deleteBtn.href = "#";
+    cardBody.appendChild(deleteBtn);
 
-        const deleteBtn = document.createElement('a');
-        deleteBtn.classList.add('btn', 'btn-outline-danger', 'fas', 'fa-trash-alt');
-        deleteBtn.href = "#";
-        cardBody.appendChild(deleteBtn);
-
-        deleteBtn.addEventListener('click', function(event) {
-            event.preventDefault();
-            const myModal = new bootstrap.Modal(document.getElementById('myModal'));
-            myModal.show();
-        
-            document.getElementById('delete').addEventListener('click', async function() {
-                showSpinner();
-                try {
-                    const productId = product.productId; // Ensure correct productId is used
-                    console.log(`Attempting to delete product with ID: ${productId}`);
-                    const deleted = await delayedFetch(() => productService.deleteProduct(productId), 1000);
-                    if (deleted === null) {
-                        card.remove();
-                        console.log('Product deleted successfully');
-                        displayMessage(`Product deleted: ${product.name}`, 'success');
-                    } else {
-                        console.log('Failed to delete product');
-                        displayMessage(`Failed to delete product: ${product.name}`, 'danger');
-                    }
-                } catch (error) {
-                    console.log('Cannot delete product', error);
-                    displayMessage('Failed to delete product', 'danger');
-                } finally {
-                    hideSpinner();
-                    myModal.hide();
+    deleteBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        const myModal = new bootstrap.Modal(document.getElementById('myModal'));
+        myModal.show();
+    
+        document.getElementById('confirmDelete').addEventListener('click', async function() {
+            showSpinner();
+            try {
+                const productId = product._id;
+                console.log(`Attempting to delete product with ID: ${productId}`);
+                const response = await delayedFetch(() => productService.deleteProduct(productId), 1000);
+                if (response === null) {
+                    card.remove();
+                    console.log('Product deleted successfully');
+                    displayMessage(`Product deleted: ${product.name}`, 'success');
+                } else {
+                    console.log('Failed to delete product');
+                    displayMessage(`Failed to delete product: ${product.name}`, 'danger');
                 }
-            });
+            } catch (error) {
+                console.log('Cannot delete product', error);
+                displayMessage('Failed to delete product', 'danger');
+            } finally {
+                hideSpinner();
+                myModal.hide();
+            }
         });
+    });
 
-        const editBtn = document.createElement('a');
-        editBtn.classList.add('btn', 'btn-outline-warning', 'fas', 'fa-edit');
-        editBtn.href = `add.html?productId=${product.productId}`;
-        editBtn.addEventListener('click', (event) => {
-            event.preventDefault();
-            window.location.href = editBtn.href;
-        });
-        cardBody.appendChild(editBtn);
-    }
+    const editBtn = document.createElement('a');
+    editBtn.classList.add('btn', 'btn-outline-warning', 'fas', 'fa-edit');
+    editBtn.href = `add.html?productId=${product._id}`;
+    editBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        window.location.href = editBtn.href;
+    });
+    cardBody.appendChild(editBtn);
     return card;
 }
 

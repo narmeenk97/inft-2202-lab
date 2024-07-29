@@ -1,17 +1,17 @@
 import { validateForm } from "./add.js";
 import { createProductService } from "./product.service.js";
 
-const apiKey = '6671c3c9f6855731eec4972d';
-const host = 'https://inft2202.paclan.net/api/products';
-const productService = createProductService(host, apiKey);
+//const apiKey = '6671c3c9f6855731eec4972d';
+const host = 'http://localhost:3000/api/products';
+const productService = createProductService(host);
+const spinner = document.getElementById('spinner');
+const container = document.getElementById('form-container');
 
 let params = new URL(document.location).searchParams;
 let productId = params.get('productId');
 if (productId) {
     setUpEditForm(productId);
 }
-const spinner = document.getElementById('spinner');
-const container = document.getElementById('form-container');
 
 async function setUpEditForm(productId) {
     //get a reference to the heading 
@@ -23,40 +23,43 @@ async function setUpEditForm(productId) {
     //use the name from the URL to find product
     showSpinner();
     try {
+        console.log(`Fetching product with ID: ${productId}`);
         let product = await delayedFetch(() => productService.findProduct(productId));
+        console.log('Fetched product:', product);
         //get reference to the form 
         const treatForm = document.getElementById('form');
         //set the field values 
         treatForm.name.value = product.name;
         treatForm.price.value = product.price;
-        treatForm.stock.value = product.stock;
+        treatForm.onHand.value = product.onHand;
         treatForm.description.value = product.description;
         treatForm.name.disabled = true;
         treatForm.addEventListener('submit', (event) => submitEditForm(event, productId));
     } catch (error) {
-        throw new Error("Failed to update item");
+        throw new Error("Failed to fetch item");
     } finally {
         hideSpinner();
     }
 }
-async function submitEditForm(event, productId) {
-    event.preventDefault();
+async function submitEditForm(productId) {
+    const form = document.getElementById('form');
     const valid = await validateForm(
-        event.target.name.value,
-        event.target.price.value,
-        event.target.stock.value,
-        event.target.description.value
+        form.name.value,
+        form.price.value,
+        form.onHand.value,
+        form.description.value
     );
     if (valid) {
         //get the product data from the form 
         const product = {
-            name: event.target.name.value,
-            price: event.target.price.value,
-            stock: event.target.stock.value,
-            description: event.target.description.value
+            name: form.name.value,
+            price: form.price.value,
+            onHand: form.onHand.value,
+            description: form.description.value
         };
         showSpinner();
         try {
+            console.log('Updating product with data:', product);
             const updated = await productService.updateProduct(productId, product);
             if (updated) {
                 window.location.href = "list.html";

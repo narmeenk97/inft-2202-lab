@@ -1,6 +1,5 @@
-function ProductService(host, apiKey) {
+function ProductService(host) {
     this.host = host;
-    this.apiKey = apiKey;
 }
 
 
@@ -17,7 +16,7 @@ ProductService.prototype.listProducts = async function(page, perPage) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'apiKey': this.apiKey
+                //'apiKey': this.apiKey
             }
         });
         //call the function to check the response status and throw an error if needed 
@@ -31,13 +30,13 @@ ProductService.prototype.listProducts = async function(page, perPage) {
     }
 };
 
-ProductService.prototype.findProduct = async function(productId) {
+ProductService.prototype.findProduct = async function(product_id) {
     try {
-        const res = await fetch(`${this.host}/${productId}`, {
+        const res = await fetch(`${this.host}/${product_id}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'apiKey': this.apiKey                
+                //'apiKey': this.apiKey                
             }
         });
         this.responseStatus(res);
@@ -56,7 +55,7 @@ ProductService.prototype.addProduct = async function(product) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'apiKey': this.apiKey                
+                //'apiKey': this.apiKey                
             },
             body: JSON.stringify(product)
         });
@@ -76,13 +75,13 @@ ProductService.prototype.addProduct = async function(product) {
     }
 };
 
-ProductService.prototype.updateProduct = async function(productId, updatedProduct) {
+ProductService.prototype.updateProduct = async function(product_id, updatedProduct) {
     try {
-        const res = await fetch(`${this.host}/${productId}`, {
+        const res = await fetch(`${this.host}/${product_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                'apiKey': this.apiKey
+                //'apiKey': this.apiKey
             },
             body: JSON.stringify(updatedProduct)
         });
@@ -96,27 +95,33 @@ ProductService.prototype.updateProduct = async function(productId, updatedProduc
     }
 };
 
-ProductService.prototype.deleteProduct = async function(productId) {
+ProductService.prototype.deleteProduct = async function(product_id) {
     try {
-        const res = await fetch(`${this.host}/${productId}`, {
+        const res = await fetch(`${this.host}/${product_id}`, {
             method: 'DELETE',
             headers: {
-                'Authorization': `Bearer ${this.apikey}`,
+                //'Authorization': `Bearer ${this.apikey}`,
                 'Content-Type': 'application/json',
-                'apiKey': this.apiKey
+                //'apiKey': this.apiKey
             }
         });
+        console.log(`Response status: ${res.status}`);
         this.responseStatus(res);
-        const result = res.status === 204 ? null : await res.json();
-        console.log(result);
-        return result;
+        if (res.status === 204) {
+            console.log('Product successfully deleted');
+            return null;
+        } else {
+            const result = await res.json();
+            console.log('Response result:', result);
+            return result;
+        }
     } catch (error) {
-        console.error(error);
+        console.error('Error during deleteProduct:', error);
         throw error;
     }
 };
 
 // Export a function to create a new instance of ProductService
-export function createProductService(host, apikey) {
-    return new ProductService(host, apikey)
+export function createProductService(host) {
+    return new ProductService(host)
 };
