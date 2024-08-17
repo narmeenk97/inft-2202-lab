@@ -1,0 +1,54 @@
+<div class="container mt-5">
+<hr style="border-top: 2px solid #211419;">
+</div>
+  </div> 
+  <div class="container">
+    <div class="row">
+      <div class="banner text-center">
+          <h1 class="fw-normal" style="font-family: cursive; color: #211419;">Get in touch with me:</h1>
+      </div>
+        <div class="mb-2">
+          <h5 class="bold" style="font-family: cursive; color: #211419;">Please provide your details and a short message below:</h5>
+        </div>
+        <form id="form" method="post" action="">
+          <div class="mb-2">
+              <label for="name" class="form-label" style="font-family: cursive; color: #211419;">Name:</label>
+              <input type="text" class="form-control" id="name" name="name">
+              <p class="text-danger d-none">Please reenter the Name and try again.</p>
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label" style="font-family: cursive; color: #211419;">Phone Number:</label>
+            <input type="tel" class="form-control" id="phone" name="phone">
+            <p class="text-danger d-none">Please reenter the Phone Number and try again.</p>
+          </div> 
+          <div class="mb-4">
+            <label for="email" class="form-label" style="font-family: cursive; color: #211419;">Email Address:</label>
+            <input type="email" class="form-control" id="email" name="email">
+            <p class="text-danger d-none">Please reenter the Email Address and try again.</p>
+          </div>
+          <div class="mb-5">
+            <label for="message" class="form-label" style="font-family: cursive; color: #211419;">Message:</label>
+            <textarea class="form-control" id="message" name="message" rows="4" cols="50"></textarea>
+            <p class="text-danger d-none">Please reenter the message and try again.</p>
+          </div>
+          <div class="mb-6">
+            <button id="submitButton" type="submit" class="btn btn-outline-primary" style="font-family: cursive; color: #211419;">Submit Message</button>
+          </div>  
+        </form>
+      </div>
+    </div>
+    <div id="message-container" class="container">
+        <% if(messages.length) { %>
+            <% for (let message of messages) { %>
+                <div class="card my-2 p-2">
+                    <p class="m-0">
+                        <strong><%= message.name %> says:</strong>&nbsp;<%= message.message %>
+                    </p>
+                </div>
+            <% } %>
+        <% } else { %>
+            <div class="alert alert-warning">There are no messages for you.</div>
+        <% } %>
+    </div>
+  </div>
+</main>

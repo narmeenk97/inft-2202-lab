@@ -6,6 +6,7 @@ function doValidation (request, response, next) {
     if (result.isEmpty()) {
         return next();
     }
+    console.log('Validation Errors:', result.array());
     // response.status(409).json({errors: result.array() });
     const errObj = { erros: result.array() }
     next(new ConflictError('Input Validation Failed', errObj))

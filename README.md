@@ -1,2 +1,15 @@
-# inft-2202-lab
-My name is Narmeen Khalid and I am a computer programming student. This repo is going to be used for the all the Lab assignments for this course. I hope I can learn more and expand my knowledge.
+# 🚀 Welcome to your new awesome project!
+
+This project has been created using **webpack-cli**, you can now run
+
+```
+npm run build
+```
+
+or
+
+```
+yarn build
+```
+
+to bundle your application

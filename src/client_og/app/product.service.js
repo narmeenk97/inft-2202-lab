@@ -85,12 +85,18 @@ ProductService.prototype.updateProduct = async function(product_id, updatedProdu
             },
             body: JSON.stringify(updatedProduct)
         });
+        // Log the response if a 409 error occurs
+        if (res.status === 409) {
+            const errorData = await res.json();
+            console.log('409 Conflict Error:', errorData); 
+            throw new Error(`Response Status: 409 - ${errorData.message || 'Validation Failed'}`);
+        }
         this.responseStatus(res);
         const result = await res.json();
         console.log(result);
         return result;
     } catch (error) {
-        console.error(error);
+        console.error('Error during product update:', error);
         throw error;
     }
 };

@@ -5,6 +5,7 @@ import { productRoutes } from './routes/products.js';
 //import middleware/logging files 
 import { ErrorHandlingMiddleware } from './middleWare/errorHandling.js';
 import { LoggingMiddleWare } from './middleWare/logging.js';
+import Path from 'path';
 //still need a port number to operate on 
 const PORT = 3000;
 //create a new instance of the http server 
@@ -17,9 +18,11 @@ server.use(LoggingMiddleWare);
 server.use(productRoutes);
 //automatically serve static assessts from the client directory  
 const localDir = import.meta.dirname;
-server.use(express.static(`${localDir}/../client`));
+server.use(express.static(`${localDir}/../../dist`));
 server.use('/node_modules', express.static(`${localDir}/../../node_modules`));
-//tell express to use our default error handler 
+server.get('*', (req, res, next) => {
+    res.sendFile(Path.resolve(import.meta.dirname + '/../../dist/index.html'));
+})
 server.use(ErrorHandlingMiddleware);
 try {
     //try to connect to the database 
